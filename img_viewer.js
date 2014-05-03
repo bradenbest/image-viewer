@@ -1,7 +1,7 @@
 /*
  * Web image viewer script by Braden Best
  * To use: 
- *   inject this script into any page, and click on the image you want to view full-size
+ *   inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
  *     while the image is "open", you can drag it around to pan instead of scrolling
  *     There is a close button, and a full URL link above the image
  *     You can press Esc to close the image without the need for clicking the close button
@@ -9,6 +9,7 @@
  *   Escape key
  *   Provide Direct URL to image
  *   image is draggable
+ *   Don't let it interfere with default click events
  */
  
 (function(){
@@ -101,8 +102,9 @@
   if(imgs[0]){
     for(i = 0; i < imgs.length; i++){
       if(imgs[i].src){
-        imgs[i].onmousedown = function(){
+        imgs[i].oncontextmenu = function(){
           push(this.src);
+          return false;
         }
       }
     }
