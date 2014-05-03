@@ -1,3 +1,12 @@
+// ==UserScript==
+// @name       Image Viewer
+// @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
+// @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
+// @version    1.0.0
+// @description  Image viewer
+// @copyright  2014 - present Braden Best
+// ==/UserScript==
+
 /*
  * Web image viewer script by Braden Best
  * To use: 
