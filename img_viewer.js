@@ -101,7 +101,7 @@
   if(imgs[0]){
     for(i = 0; i < imgs.length; i++){
       if(imgs[i].src){
-        imgs[i].onclick = function(){
+        imgs[i].onmousedown = function(){
           push(this.src);
         }
       }
