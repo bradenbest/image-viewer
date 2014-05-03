@@ -3,6 +3,7 @@
  * To use: inject this script into any page, and click on the image you want to view full-size
  * Special thanks to Cyberdevil for providing suggestions
  *   Escape key
+ *   Provide Direct URL to image
  */
  
 (function(){
@@ -13,21 +14,21 @@
     img.src = url;
     img.style.position = 'absolute';
     img.style.left = '0px';
-    img.style.top  = '40px';
+    img.style.top  = '60px';
     img.style.zIndex = '10000'; // this is to push it above everything else, so the NG navbar doesn't float over it.
     img.className = 'img_viewer';
     // Image helper
-    img_helper.innerHTML = "Click here to close image";
+    img_helper.innerHTML = "Click here to close image<hr><a href=\"" + url + "\">Direct URL</a>";
     img_helper.style.position = 'absolute';
     img_helper.style.left = '0px';
     img_helper.style.top  = '0px';
     img_helper.style.margin = '0';
     img_helper.style.padding = '5px 0';
     img_helper.style.width = '100%';
-    img_helper.style.height='30px';
+    img_helper.style.height='50px';
     img_helper.style.background = '#fff';
     img_helper.style.color = '#000';
-    img_helper.style.fontSize = '24px';
+    img_helper.style.fontSize = '12px';
     img_helper.style.textAlign = 'center';
     img_helper.style.zIndex = '10000';
     img_helper.className = 'img_viewer';
