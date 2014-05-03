@@ -30,7 +30,7 @@
     img.style.position = 'absolute';
     img.style.left = '0px';
     img.style.top  = '60px';
-    img.style.zIndex = '1000000'; // this is to push it above everything else, so the NG navbar doesn't float over it.
+    img.style.zIndex = '2147483647'; // this is to push it above everything else, so the NG navbar doesn't float over it.
     img.className = 'img_viewer';
     img.draggable = 'false';
     img.dragging = 0;
