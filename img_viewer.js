@@ -26,7 +26,7 @@
     img.dragging = 0;
     img.mousepos = [0,0];
     // Image helper
-    img_helper.innerHTML = "Click here to close image<hr><a href=\"" + url + "\">Direct URL</a>";
+    img_helper.innerHTML = "Click here to close image<hr><a target=\"_blank\" href=\"" + url + "\">Direct URL</a>";
     img_helper.style.position = 'absolute';
     img_helper.style.left = '0px';
     img_helper.style.top  = '0px';
