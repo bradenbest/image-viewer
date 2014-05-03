@@ -21,7 +21,7 @@
     img.style.position = 'absolute';
     img.style.left = '0px';
     img.style.top  = '60px';
-    img.style.zIndex = '10000'; // this is to push it above everything else, so the NG navbar doesn't float over it.
+    img.style.zIndex = '1000000'; // this is to push it above everything else, so the NG navbar doesn't float over it.
     img.className = 'img_viewer';
     img.draggable = 'false';
     img.dragging = 0;
@@ -39,7 +39,7 @@
     img_helper.style.color = '#000';
     img_helper.style.fontSize = '12px';
     img_helper.style.textAlign = 'center';
-    img_helper.style.zIndex = '10000';
+    img_helper.style.zIndex = '2147483647'; // The absolute maximum
     img_helper.className = 'img_viewer';
     // append to body
     document.body.appendChild(img);
