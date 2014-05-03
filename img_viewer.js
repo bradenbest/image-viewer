@@ -4,6 +4,7 @@
  * Special thanks to Cyberdevil for providing suggestions
  *   Escape key
  *   Provide Direct URL to image
+ *   image is draggable
  */
  
 (function(){
@@ -17,6 +18,9 @@
     img.style.top  = '60px';
     img.style.zIndex = '10000'; // this is to push it above everything else, so the NG navbar doesn't float over it.
     img.className = 'img_viewer';
+    img.draggable = 'false';
+    img.dragging = 0;
+    img.mousepos = [0,0];
     // Image helper
     img_helper.innerHTML = "Click here to close image<hr><a href=\"" + url + "\">Direct URL</a>";
     img_helper.style.position = 'absolute';
@@ -41,6 +45,40 @@
       document.body.removeChild(img);
       document.body.removeChild(img_helper);
       img_helper.onclick = null;
+    }
+    img.onmousedown = function(evt){
+      this.dragging = 1;
+      this.mousepos[0] = (evt.clientX || evt.pageX);
+      this.mousepos[1] = (evt.clientY || evt.pageY);
+    }
+    img.onmouseup = function(evt){
+      this.dragging = 0;
+    }
+    img.onmousemove = function(evt){ // Hoo boy, that was pretty difficult to figure out
+      if(this.dragging){
+        lastX = this.mousepos[0];
+        curX = (evt.clientX || evt.pageX);
+        lastY = this.mousepos[1];
+        curY = (evt.clientY || evt.pageY);
+        if(!(lastX == curX && lastY == curY)){
+          console.log("mouse has moved")
+          if(curX > lastX){
+            this.style.left = (parseInt(this.style.left) + (curX - lastX)) + 'px';
+          }
+          if(curX < lastX){
+            this.style.left = (parseInt(this.style.left) - (lastX - curX)) + 'px';
+          }
+          if(curY > lastY){
+            this.style.top = (parseInt(this.style.top) + (curY - lastY)) + 'px';
+          }
+          if(curY < lastY){
+            this.style.top = (parseInt(this.style.top) - (lastY - curY)) + 'px';
+          }
+        }
+        this.mousepos[0] = curX;
+        this.mousepos[1] = curY;
+      }
+      return false;
     }
   }
 
