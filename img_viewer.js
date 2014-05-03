@@ -103,7 +103,6 @@
       if(imgs[i].src){
         imgs[i].onclick = function(){
           push(this.src);
-          return false;
         }
       }
     }
