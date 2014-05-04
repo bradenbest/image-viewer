@@ -56,7 +56,7 @@
     img_helper_link.style.fontSize = '12px';
     img_helper_link.style.textAlign = 'center';
     img_helper_link.style.zIndex = '2147483647';
-    img_helper_link.className = 'img_viewer'
+    img_helper_link.className = 'img_viewer';
     // append to body
     document.body.appendChild(img);
     document.body.appendChild(img_helper);
@@ -65,6 +65,7 @@
     img_helper.onclick = function(){
       document.body.removeChild(img);
       document.body.removeChild(img_helper);
+      document.body.removeChild(img_helper_link);
       img_helper.onclick = null;
     }
     img.onmousedown = function(evt){
