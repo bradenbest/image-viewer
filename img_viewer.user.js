@@ -2,13 +2,14 @@
 // @name       Image Viewer
 // @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
 // @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
-// @version    1.5.0
+// @version    1.5.1
 // @description  inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
 // @copyright  2014 - present, Braden Best
 // ==/UserScript==
  
 (function initialize(init){
   var init = init || 0;
+  var firefox = /Firefox/i.test(navigator.userAgent);
   function push(url){
     var img = document.createElement('img'),
         img_helper = document.createElement('div'),
@@ -17,7 +18,7 @@
     img.src = url;
     img.style.position = 'absolute';
     img.style.left = '0px';
-    img.style.top  = (document.body.scrollTop) + 'px';
+    img.style.top  = (80 + document.body.scrollTop) + 'px';
     img.style.zIndex = '2147483647'; // this is to push it above everything else, so the NG navbar doesn't float over it.
     img.className = 'img_viewer';
     img.draggable = 'false';
@@ -41,7 +42,7 @@
     img_helper.style.zIndex = '2147483647'; // The absolute maximum
     img_helper.className = 'img_viewer';
     // Image helper link
-    img_helper_link.innerText = 'Direct URL';
+    img_helper_link.innerHTML = 'Direct URL';
     img_helper_link.href = url;
     img_helper_link.target = '_blank';
     img_helper_link.style.margin = '0';
@@ -68,13 +69,22 @@
       document.body.removeChild(img_helper);
       document.body.removeChild(img_helper_link);
     }
-    img.onmousedown = function(evt){
-      this.dragging = 1;
-      this.mousepos[0] = (evt.clientX || evt.pageX);
-      this.mousepos[1] = (evt.clientY || evt.pageY);
-    }
-    img.onmouseup = function(evt){
-      this.dragging = 0;
+    if(firefox){ // I hate browser sniffing, but my hand is forced
+      img.onmousedown = function(evt){
+        this.dragging = !this.dragging;
+        this.mousepos[0] = (evt.clientX || evt.pageX);
+        this.mousepos[1] = (evt.clientY || evt.pageY);
+      }
+      img.onmouseup = null;
+    } else {
+      img.onmousedown = function(evt){
+        this.dragging = 1;
+        this.mousepos[0] = (evt.clientX || evt.pageX);
+        this.mousepos[1] = (evt.clientY || evt.pageY);
+      }
+      img.onmouseup = function(evt){
+        this.dragging = 0;
+      }
     }
     img.onmousemove = function(evt){ // Hoo boy, that was pretty difficult to figure out
       if(this.dragging){
@@ -140,6 +150,16 @@
     }
   } else {
     console.log("Something has gone wrong!");
+  }
+  if(!firefox){
+    document.body.onmouseup = function(evt){
+      var imgs = document.querySelectorAll('.img_viewer');
+      if(imgs[0]){
+        for(var i = 0; i < imgs.length; i++){
+           imgs[i].dragging = 0;
+        }
+      }
+    }
   }
   document.body.onkeydown = function(evt){
     if(evt.keyCode == 27){ // Escape key

@@ -1,6 +1,6 @@
 # Web Image Viewer by Braden Best
 
-## Version 1.5.0
+## Version 1.5.1
 
 This userscript is hosted at https://greasyfork.org/scripts/631-image-viewer
 
@@ -20,6 +20,8 @@ This can be accomplished by
 #### Drag 'n Drop -- mouse
 
 while the image is "open", you can drag it around with the mouse to pan instead of scrolling
+
+In Firefox, it's a little different. You have to click the image to toggle the dragging functionality on and off
 
 #### Image controls -- mouse
 
