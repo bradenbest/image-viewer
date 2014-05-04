@@ -2,8 +2,8 @@
 // @name       Image Viewer
 // @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
 // @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
-// @version    1.2.0
-// @description  Image viewer
+// @version    1.3.0
+// @description  inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
 // @copyright  2014 - present, Braden Best
 // ==/UserScript==
 
@@ -14,6 +14,7 @@
  *     while the image is "open", you can drag it around to pan instead of scrolling
  *     There is a close button, and a full URL link above the image
  *     You can press Esc to close the image without the need for clicking the close button
+ *     You can press Ctrl to re-initialize the script, for when images don't respond to right-clicking
  * Special thanks to Cyberdevil for providing suggestions
  *   Escape key
  *   Provide Direct URL to image
@@ -21,7 +22,8 @@
  *   Don't let it interfere with default click events
  */
  
-(function(){
+(function initialize(init){
+  var init = init || 0;
   function push(url){
     var img = document.createElement('img'),
         img_helper = document.createElement('div');
@@ -124,7 +126,15 @@
     if(evt.keyCode == 27){ // Escape key
       clear();
     }
+    if(evt.keyCode == 17){ // Ctrl
+      clear();
+      initialize(1);
+    }
   }
-  console.log("Image Viewer successfully started up!");
-  console.log("Try right-clicking an image");
+  if(!init){
+    console.log("Image Viewer successfully started up!");
+    console.log("Try right-clicking an image");
+  }else{
+    console.log("Queue updated");
+  }
 })();
