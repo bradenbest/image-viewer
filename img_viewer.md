@@ -1,4 +1,4 @@
-# Web Image Viewer Script by Braden Best
+# Web Image Viewer by Braden Best
 
 ## Version 1.3.0
 
