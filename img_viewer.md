@@ -47,3 +47,4 @@ Special thanks to Cyberdevil for providing suggestions
 * Provide Direct URL to image
 * Image should be draggable
 * Don't let it interfere with default click events
+* Various bug reports
