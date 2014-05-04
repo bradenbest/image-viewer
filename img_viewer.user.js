@@ -2,7 +2,7 @@
 // @name       Image Viewer
 // @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
 // @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
-// @version    1.4.1
+// @version    1.4.2
 // @description  inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
 // @copyright  2014 - present, Braden Best
 // ==/UserScript==
