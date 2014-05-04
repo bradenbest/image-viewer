@@ -2,7 +2,7 @@
 // @name       Image Viewer
 // @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
 // @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
-// @version    1.4.0
+// @version    1.4.1
 // @description  inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
 // @copyright  2014 - present, Braden Best
 // ==/UserScript==
@@ -17,14 +17,14 @@
     img.src = url;
     img.style.position = 'absolute';
     img.style.left = '0px';
-    img.style.top  = (60 + document.body.scrollTop) + 'px';
+    img.style.top  = (document.body.scrollTop) + 'px';
     img.style.zIndex = '2147483647'; // this is to push it above everything else, so the NG navbar doesn't float over it.
     img.className = 'img_viewer';
     img.draggable = 'false';
     img.dragging = 0;
     img.mousepos = [0,0];
     // Image helper
-    img_helper.innerHTML = "Click here to close image<hr>";
+    img_helper.innerHTML = "Click here to close image";
     img_helper.style.position = 'fixed';
     img_helper.style.left = '0px';
     img_helper.style.top  = '0px';
@@ -33,6 +33,7 @@
     img_helper.style.width = '100%';
     img_helper.style.height='50px';
     img_helper.style.background = '#fff';
+    img_helper.style.borderBottom = '1px solid #ccc';
     img_helper.style.color = '#000';
     img_helper.style.fontSize = '12px';
     img_helper.style.textAlign = 'center';
@@ -43,10 +44,23 @@
     img_helper_link.href = url;
     img_helper_link.target = '_blank';
     img_helper_link.style.margin = '0';
+    img_helper_link.style.padding = '0';
+    img_helper_link.style.background = '#fff';
+    img_helper_link.style.borderBottom = '1px solid #ccc';
+    img_helper_link.style.display = 'block';
+    img_helper_link.style.width = '100%';
+    img_helper_link.style.height = '20px';
+    img_helper_link.style.position = 'fixed';
+    img_helper_link.style.left = '0';
+    img_helper_link.style.top = '50px';
+    img_helper_link.style.fontSize = '12px';
+    img_helper_link.style.textAlign = 'center';
+    img_helper_link.style.zIndex = '2147483647';
+    img_helper_link.className = 'img_viewer'
     // append to body
-    img_helper.appendChild(img_helper_link);
     document.body.appendChild(img);
     document.body.appendChild(img_helper);
+    document.body.appendChild(img_helper_link);
     // helper on-click
     img_helper.onclick = function(){
       document.body.removeChild(img);
