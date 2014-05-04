@@ -2,7 +2,7 @@
 // @name       Image Viewer
 // @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
 // @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
-// @version    1.4.2
+// @version    1.4.3
 // @description  inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
 // @copyright  2014 - present, Braden Best
 // ==/UserScript==
@@ -58,15 +58,14 @@
     img_helper_link.style.zIndex = '2147483647';
     img_helper_link.className = 'img_viewer';
     // append to body
-    document.body.appendChild(img);
     document.body.appendChild(img_helper);
     document.body.appendChild(img_helper_link);
+    document.body.appendChild(img);
     // helper on-click
     img_helper.onclick = function(){
       document.body.removeChild(img);
       document.body.removeChild(img_helper);
       document.body.removeChild(img_helper_link);
-      img_helper.onclick = null;
     }
     img.onmousedown = function(evt){
       this.dragging = 1;

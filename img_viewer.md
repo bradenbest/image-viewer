@@ -1,6 +1,6 @@
 # Web Image Viewer by Braden Best
 
-## Version 1.4.2
+## Version 1.4.3
 
 This userscript is hosted at https://greasyfork.org/scripts/631-image-viewer
 
