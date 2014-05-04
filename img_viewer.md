@@ -1,6 +1,6 @@
 # Web Image Viewer by Braden Best
 
-## Version 1.5.1
+## Version 1.5.2
 
 This userscript is hosted at https://greasyfork.org/scripts/631-image-viewer
 
@@ -35,9 +35,9 @@ You can press Esc to close the image without the need for clicking the close but
 
 You can press Ctrl to re-initialize the script, for when dynamically generated images don't respond to right-clicking
 
-#### Resizing images -- Mouse and Up/Down
+#### Resizing images -- Mouse and Arrow Keys
 
-If you left click an image spawned by the script, and press up/down, you can resize the image
+If you left click an image spawned by the script, and press the arrow keys, you can resize the image. Left/right for width, and UP/Down for height
 
 ## Special Thanks
 

@@ -2,7 +2,7 @@
 // @name       Image Viewer
 // @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
 // @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
-// @version    1.5.1
+// @version    1.5.2
 // @description  inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
 // @copyright  2014 - present, Braden Best
 // ==/UserScript==
@@ -115,13 +115,28 @@
     img.onkeydown = function(evt){
       var temp_width;
       if(evt.keyCode == 38) { // Up
-        temp_width = parseInt(this.width) + 10;
+        temp_width = parseInt(this.width);
+        temp_height = parseInt(this.height) - 10;
         this.width = temp_width;
-      } else if(evt.keyCode == 40) { // Down
+        this.height = temp_height;
+      } 
+      if(evt.keyCode == 40) { // Down
+        temp_width = parseInt(this.width);
+        temp_height = parseInt(this.height) + 10;
+        this.width = temp_width;
+        this.height = temp_height;
+      }
+      if(evt.keyCode == 37) { // Left
         temp_width = parseInt(this.width) - 10;
+        temp_height = parseInt(this.height);
         this.width = temp_width;
-      } else {
-        console.log("Key: " + evt.keyCode);
+        this.height = temp_height;
+      }
+      if(evt.keyCode == 39) { // Right
+        temp_width = parseInt(this.width) + 10;
+        temp_height = parseInt(this.height);
+        this.width = temp_width;
+        this.height = temp_height;
       }
       return false;
     }
