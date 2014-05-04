@@ -2,7 +2,7 @@
 // @name       Image Viewer
 // @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
 // @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
-// @version    1.3.0
+// @version    1.4.0
 // @description  inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
 // @copyright  2014 - present, Braden Best
 // ==/UserScript==
@@ -11,20 +11,21 @@
   var init = init || 0;
   function push(url){
     var img = document.createElement('img'),
-        img_helper = document.createElement('div');
+        img_helper = document.createElement('div'),
+        img_helper_link = document.createElement('a');
     // Image
     img.src = url;
     img.style.position = 'absolute';
     img.style.left = '0px';
-    img.style.top  = '60px';
+    img.style.top  = (60 + document.body.scrollTop) + 'px';
     img.style.zIndex = '2147483647'; // this is to push it above everything else, so the NG navbar doesn't float over it.
     img.className = 'img_viewer';
     img.draggable = 'false';
     img.dragging = 0;
     img.mousepos = [0,0];
     // Image helper
-    img_helper.innerHTML = "Click here to close image<hr><a target=\"_blank\" href=\"" + url + "\">Direct URL</a>";
-    img_helper.style.position = 'absolute';
+    img_helper.innerHTML = "Click here to close image<hr>";
+    img_helper.style.position = 'fixed';
     img_helper.style.left = '0px';
     img_helper.style.top  = '0px';
     img_helper.style.margin = '0';
@@ -37,10 +38,15 @@
     img_helper.style.textAlign = 'center';
     img_helper.style.zIndex = '2147483647'; // The absolute maximum
     img_helper.className = 'img_viewer';
+    // Image helper link
+    img_helper_link.innerText = 'Direct URL';
+    img_helper_link.href = url;
+    img_helper_link.target = '_blank';
+    img_helper_link.style.margin = '0';
     // append to body
+    img_helper.appendChild(img_helper_link);
     document.body.appendChild(img);
     document.body.appendChild(img_helper);
-    document.body.scrollTop = 0;
     // helper on-click
     img_helper.onclick = function(){
       document.body.removeChild(img);
@@ -62,7 +68,7 @@
         lastY = this.mousepos[1];
         curY = (evt.clientY || evt.pageY);
         if(!(lastX == curX && lastY == curY)){
-          console.log("mouse has moved")
+          console.log("mouse has moved");
           if(curX > lastX){
             this.style.left = (parseInt(this.style.left) + (curX - lastX)) + 'px';
           }
@@ -112,7 +118,7 @@
       clear();
     }
     if(evt.keyCode == 17){ // Ctrl
-      clear();
+      //clear();
       initialize(1);
     }
   }
