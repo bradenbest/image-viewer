@@ -6,21 +6,6 @@
 // @description  inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
 // @copyright  2014 - present, Braden Best
 // ==/UserScript==
-
-/*
- * Web image viewer script by Braden Best
- * To use: 
- *   inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
- *     while the image is "open", you can drag it around to pan instead of scrolling
- *     There is a close button, and a full URL link above the image
- *     You can press Esc to close the image without the need for clicking the close button
- *     You can press Ctrl to re-initialize the script, for when images don't respond to right-clicking
- * Special thanks to Cyberdevil for providing suggestions
- *   Escape key
- *   Provide Direct URL to image
- *   image is draggable
- *   Don't let it interfere with default click events
- */
  
 (function initialize(init){
   var init = init || 0;
