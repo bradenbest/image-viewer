@@ -2,195 +2,209 @@
 // @name       Image Viewer
 // @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
 // @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
-// @version    1.5.2
-// @description  inject this script into any page, and RIGHT-CLICK on the image you want to view full-size
-// @copyright  2014 - present, Braden Best
+// @version    1.6.0
+// @description  inject this script into any page, and right-click on the image you want to view full-size
+// @copyright  2014 - 2017, Braden Best
 // ==/UserScript==
- 
-// poke
 
-(function initialize(init){
-  var init = init || 0;
-  var firefox = /Firefox/i.test(navigator.userAgent);
-  function push(url){
-    var img = document.createElement('img'),
-        img_helper = document.createElement('div'),
-        img_helper_link = document.createElement('a');
-    // Image
-    img.src = url;
-    img.style.position = 'absolute';
-    img.style.left = '0px';
-    img.style.top  = (80 + document.body.scrollTop) + 'px';
-    img.style.zIndex = '2147483647'; // this is to push it above everything else, so the NG navbar doesn't float over it.
-    img.className = 'img_viewer';
-    img.draggable = 'false';
-    img.dragging = 0;
-    img.mousepos = [0,0];
-    img.tabIndex = 0;
-    // Image helper
-    img_helper.innerHTML = "Click here to close image";
-    img_helper.style.position = 'fixed';
-    img_helper.style.left = '0px';
-    img_helper.style.top  = '0px';
-    img_helper.style.margin = '0';
-    img_helper.style.padding = '5px 0';
-    img_helper.style.width = '100%';
-    img_helper.style.height='50px';
-    img_helper.style.background = '#fff';
-    img_helper.style.borderBottom = '1px solid #ccc';
-    img_helper.style.color = '#000';
-    img_helper.style.fontSize = '12px';
-    img_helper.style.textAlign = 'center';
-    img_helper.style.zIndex = '2147483647'; // The absolute maximum
-    img_helper.className = 'img_viewer';
-    // Image helper link
-    img_helper_link.innerHTML = 'Direct URL';
-    img_helper_link.href = url;
-    img_helper_link.target = '_blank';
-    img_helper_link.style.margin = '0';
-    img_helper_link.style.padding = '0';
-    img_helper_link.style.background = '#fff';
-    img_helper_link.style.borderBottom = '1px solid #ccc';
-    img_helper_link.style.display = 'block';
-    img_helper_link.style.width = '100%';
-    img_helper_link.style.height = '20px';
-    img_helper_link.style.position = 'fixed';
-    img_helper_link.style.left = '0';
-    img_helper_link.style.top = '50px';
-    img_helper_link.style.fontSize = '12px';
-    img_helper_link.style.textAlign = 'center';
-    img_helper_link.style.zIndex = '2147483647';
-    img_helper_link.className = 'img_viewer';
-    // append to body
-    document.body.appendChild(img_helper);
-    document.body.appendChild(img_helper_link);
-    document.body.appendChild(img);
-    // helper on-click
-    img_helper.onclick = function(){
-      document.body.removeChild(img);
-      document.body.removeChild(img_helper);
-      document.body.removeChild(img_helper_link);
-    }
-    if(firefox){ // I hate browser sniffing, but my hand is forced
-      img.onmousedown = function(evt){
-        this.dragging = !this.dragging;
-        this.mousepos[0] = (evt.clientX || evt.pageX);
-        this.mousepos[1] = (evt.clientY || evt.pageY);
-      }
-      img.onmouseup = null;
-    } else {
-      img.onmousedown = function(evt){
-        this.dragging = 1;
-        this.mousepos[0] = (evt.clientX || evt.pageX);
-        this.mousepos[1] = (evt.clientY || evt.pageY);
-      }
-      img.onmouseup = function(evt){
-        this.dragging = 0;
-      }
-    }
-    img.onmousemove = function(evt){ // Hoo boy, that was pretty difficult to figure out
-      if(this.dragging){
-        lastX = this.mousepos[0];
-        curX = (evt.clientX || evt.pageX);
-        lastY = this.mousepos[1];
-        curY = (evt.clientY || evt.pageY);
-        if(!(lastX == curX && lastY == curY)){
-          console.log("mouse has moved");
-          if(curX > lastX){
-            this.style.left = (parseInt(this.style.left) + (curX - lastX)) + 'px';
-          }
-          if(curX < lastX){
-            this.style.left = (parseInt(this.style.left) - (lastX - curX)) + 'px';
-          }
-          if(curY > lastY){
-            this.style.top = (parseInt(this.style.top) + (curY - lastY)) + 'px';
-          }
-          if(curY < lastY){
-            this.style.top = (parseInt(this.style.top) - (lastY - curY)) + 'px';
-          }
-        }
-        this.mousepos[0] = curX;
-        this.mousepos[1] = curY;
-      }
-      return false;
-    }
-    img.onkeydown = function(evt){
-      var temp_width;
-      if(evt.keyCode == 38) { // Up
-        temp_width = parseInt(this.width);
-        temp_height = parseInt(this.height) - 10;
-        this.width = temp_width;
-        this.height = temp_height;
-      } 
-      if(evt.keyCode == 40) { // Down
-        temp_width = parseInt(this.width);
-        temp_height = parseInt(this.height) + 10;
-        this.width = temp_width;
-        this.height = temp_height;
-      }
-      if(evt.keyCode == 37) { // Left
-        temp_width = parseInt(this.width) - 10;
-        temp_height = parseInt(this.height);
-        this.width = temp_width;
-        this.height = temp_height;
-      }
-      if(evt.keyCode == 39) { // Right
-        temp_width = parseInt(this.width) + 10;
-        temp_height = parseInt(this.height);
-        this.width = temp_width;
-        this.height = temp_height;
-      }
-      return false;
-    }
-  }
+const firefox = /Firefox/i.test(navigator.userAgent);
 
-  function clear(){
-    var imgs = document.querySelectorAll('.img_viewer');
-    if(imgs[0]) {
-      for(var i = 0; i < imgs.length; i++){
-        document.body.removeChild(imgs[i]);
-      }
-    } else {
-      console.log("No images generated by this script were found");
-    }
-  }
+function mk_node({
+    name = "span",
+    props = [],
+    styles = [],
+    events = [],
+    extra = null
+} = {}){
+    let el = document.createElement(name);
 
-  var imgs = document.querySelectorAll('img[src]'), i;
-  if(imgs[0]){
-    for(i = 0; i < imgs.length; i++){
-      if(imgs[i].src){
-        imgs[i].oncontextmenu = function(){
-          push(this.src);
-          return false;
-        }
-      }
-    }
-  } else {
-    console.log("Something has gone wrong!");
-  }
-  if(!firefox){
-    document.body.onmouseup = function(evt){
-      var imgs = document.querySelectorAll('.img_viewer');
-      if(imgs[0]){
-        for(var i = 0; i < imgs.length; i++){
-           imgs[i].dragging = 0;
-        }
-      }
-    }
-  }
-  document.body.onkeydown = function(evt){
-    if(evt.keyCode == 27){ // Escape key
-      clear();
-    }
-    if(evt.keyCode == 17){ // Ctrl
-      //clear();
-      initialize(1);
-    }
-  }
-  if(!init){
-    console.log("Image Viewer successfully started up!");
-    console.log("Try right-clicking an image");
-  }else{
-    console.log("Queue updated");
-  }
-})();
+    props.forEach(function([name, value]){
+        el[name] = value;
+    });
+
+    styles.forEach(function([name, value]){
+        el.style[name] = value;
+    });
+
+    events.forEach(function([name, callback]){
+        el.addEventListener(name, function(ev){
+            callback(ev, el);
+        });
+    });
+
+    if(extra)
+        extra(el);
+
+    return el;
+}
+
+function mk_img(url){
+    return mk_node({
+        name: "img",
+        props: [
+            ["src",        url],
+            ["className",  "img_viewer"],
+            ["draggable",  "false"],
+            ["dragging",   0],
+            ["mousepos",   [0,0]],
+            ["tabIndex",   0]
+        ],
+        styles: [
+            ["position",  "absolute"],
+            ["left",      "0px"],
+            ["top",       (80 + document.body.scrollTop) + "px"],
+            ["zIndex",    "2147483647"]
+        ],
+        events: [
+            ["mousedown", function(ev, self){
+                self.dragging = firefox
+                    ? !self.dragging
+                    : 1;
+
+                self.mousepos[0] = (ev.clientX || ev.pageX);
+                self.mousepos[1] = (ev.clientY || ev.pageY);
+            }],
+            ["mouseup", function(unused, self){
+                if(firefox)
+                    return false;
+
+                self.dragging = 0;
+            }],
+            ["mousemove", function(ev, self){
+                let curX = (ev.clientX || ev.pageX);
+                let curY = (ev.clientY || ev.pageY);
+                let diffX = curX - self.mousepos[0];
+                let diffY = curY - self.mousepos[1];
+
+                if(!self.dragging || (!diffX && !diffY))
+                    return false;
+
+                self.mousepos = [curX, curY];
+                self.style.left = parseInt(self.style.left) + diffX + "px";
+                self.style.top  = parseInt(self.style.top)  + diffY + "px";
+            }],
+            ["keydown", function(ev, self){
+                let dispatch = ({
+                    "ArrowUp":    ["height", -10],
+                    "ArrowDown":  ["height", +10],
+                    "ArrowLeft":  ["width",  -10],
+                    "ArrowRight": ["width",  +10]
+                })[ev.key] || ["width", 0];
+
+                self[dispatch[0]] = +self[dispatch[0]] + dispatch[1];
+            }]
+        ]
+    });
+}
+
+function mk_img_helper({img, img_helper_link}){
+    let el = mk_node({
+        name: "div",
+        props: [
+            ["innerHTML", "Click here to close image"],
+            ["className", "img_viewer"]
+        ],
+        styles: [
+            ["position",     "fixed"],
+            ["left",         "0px"],
+            ["top",          "0px"],
+            ["margin",       "0"],
+            ["padding",      "5px 0"],
+            ["width",        "100%"],
+            ["height",       "50px"],
+            ["background",   "#fff"],
+            ["borderBottom", "1px solid #ccc"],
+            ["color",        "#000"],
+            ["fontSize",     "12px"],
+            ["textAlign",    "center"],
+            ["zIndex",       "2147483647"]
+        ],
+        events: [
+            ["click", function(unused, unused2){
+                document.body.removeChild(img);
+                document.body.removeChild(el);
+                document.body.removeChild(img_helper_link);
+            }]
+        ]
+    });
+
+    return el;
+}
+
+function mk_img_helper_link(url){
+    return mk_node({
+        name: "a",
+        props: [
+            ["innerHTML", "Direct URL"],
+            ["href", url],
+            ["target", "_blank"],
+            ["className", "img_viewer"]
+        ],
+        styles: [
+            ["margin", "0"],
+            ["padding", "0"],
+            ["background", "#fff"],
+            ["borderBottom", "1px solid #ccc"],
+            ["display", "block"],
+            ["width", "100%"],
+            ["height", "20px"],
+            ["position", "fixed"],
+            ["left", "0"],
+            ["top", "50px"],
+            ["fontSize", "12px"],
+            ["textAlign", "center"],
+            ["zIndex", "2147483647"]
+        ]
+    });
+}
+
+function mk_img_group(url){
+    let img = mk_img(url);
+    let img_helper_link = mk_img_helper_link(url);
+    let img_helper = mk_img_helper({img, img_helper_link});
+
+    [img, img_helper, img_helper_link].forEach(function(node){
+        document.body.appendChild(node);
+    });
+
+    return { img, img_helper, img_helper_link };
+}
+
+function clear(){
+    [...document.querySelectorAll(".img_viewer")]
+        .forEach(function(viewer){
+            document.body.removeChild(viewer);
+        });
+}
+
+function init(){
+    [...document.querySelectorAll("img")].forEach(function(img){
+        img.addEventListener("contextmenu", function(ev){
+            mk_img_group(img.src);
+            ev.preventDefault();
+        });
+    });
+
+    document.body.addEventListener("mouseup", function(ev){
+        if(firefox)
+            return false;
+
+        [...document.querySelectorAll(".img_viewer")]
+            .forEach(function(viewer){
+                viewer.dragging = 0;
+            });
+    });
+
+    document.body.addEventListener("keydown", function(ev){
+        let dispatch = ({
+            "Escape":  clear,
+            "Control": init
+        })[ev.key] || (()=>null);
+
+        dispatch();
+    });
+}
+
+init();
+console.log("Image Viewer started up.");
+console.log("Try right-clicking an image");
