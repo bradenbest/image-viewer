@@ -2,9 +2,11 @@
 // @name       Image Viewer
 // @namespace  https://gist.github.com/bradenbest/04bd0fc2d57ec650449f
 // @downloadURL https://gist.githubusercontent.com/bradenbest/04bd0fc2d57ec650449f/raw/img_viewer.user.js
-// @version    1.6.0
+// @version    1.6.1
 // @description  inject this script into any page, and right-click on the image you want to view full-size
 // @copyright  2014 - 2017, Braden Best
+//
+// @match *
 // ==/UserScript==
 
 const firefox = /Firefox/i.test(navigator.userAgent);
